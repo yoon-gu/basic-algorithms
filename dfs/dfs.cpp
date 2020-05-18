@@ -48,18 +48,18 @@ int main(){
 
 	// DFS Loop
 	std::vector<bool> visit(n, false);
-	std::vector<bool> stack_history(n, false);
 	std::stack<int> stack;
-	int s = 0; // start
+	int s = 6; // start
 	stack.push(s);
-	stack_history[s] = true;
 
 	while(!stack.empty()){
 		// Step 1
 		s = stack.top();
-		std::cout << s << "-";
 		stack.pop();
-		std::cout << '\t' << s << " is removed from the stack." << std::endl;
+		if (!visit[s]){
+			std::cout << s << "-";
+			std::cout << '\t' << s << " is removed from the stack." << std::endl;
+		}
 
 		// Step 2
 		visit[s] = true;
@@ -67,9 +67,8 @@ int main(){
 		// Step 3
 		for (int i = 0; i < n; ++i)
 		{
-			if ( (adj[s][i]!=0) && !visit[i] && !stack_history[i] ){
+			if ( (adj[s][i]!=0) && !visit[i]){
 				stack.push(i);
-				stack_history[i] = true;
 				std::cout << '\t' << i << " is added to the stack." << std::endl;
 			}
 		}

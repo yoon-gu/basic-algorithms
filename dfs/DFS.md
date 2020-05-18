@@ -4,42 +4,41 @@
 
 필요한 변수들:
 - `visit`: 방문헀던 곳인지 표시
-- `stack_visit`: 스택에 들어가 있는지 표시
 - `adjacent`: 노드(Node)들의 연결성을 나타내는 행렬
 - `stack`: 방문 예정 노드들이 저장되는 곳
 
 알고리즘: `stack`에 시작 지점인 노드 `0`을 추가한다.
 1. `stack`에서 `pop()`을 해서 현재 위치를 얻는다.
 1. `visit`의 현재 위치에 표시를 한다.(`true`)
-1. 현재 위치에서 (a)인접한 위치에 있고, (b)방문하지 않았으며, (c)`stack`에도 들어가지 않았던 곳들을 `stack`에 추가한다.
+1. 현재 위치에서 (a)인접한 위치에 있고, (b)방문하지 않았던 곳들을 `stack`에 추가한다.
 1. `stack`이 비어있지 않다면 1단계로 간다.
 
 ### `C++` 코드
 ```c++
 // DFS Loop
 std::vector<bool> visit(n, false);
-std::vector<bool> stack_history(n, false);
 std::stack<int> stack;
 int s = 0; // start
 stack.push(s);
 stack_history[s] = true;
 
 while(!stack.empty()){
-	// 1단계
+	// Step 1
 	s = stack.top();
-	std::cout << s << "-";
 	stack.pop();
-	std::cout << '\t' << s << " is removed from the stack." << std::endl;
+	if (!visit[s]){
+		std::cout << s << "-";
+		std::cout << '\t' << s << " is removed from the stack." << std::endl;
+	}
 
-	// 2단계
+	// Step 2
 	visit[s] = true;
 
-	// 3단계
+	// Step 3
 	for (int i = 0; i < n; ++i)
 	{
-		if ( (adj[s][i]!=0) && !visit[i] && !stack_history[i] ){ // (a), (b), (c)
+		if ( (adj[s][i]!=0) && !visit[i]){
 			stack.push(i);
-			stack_history[i] = true;
 			std::cout << '\t' << i << " is added to the stack." << std::endl;
 		}
 	}
