@@ -55,10 +55,12 @@ while(!stack.empty()){
 5-	5 is removed from the stack.
 	4 is added to the stack.
 4-	4 is removed from the stack.
+	2 is added to the stack.
 	3 is added to the stack.
 	6 is added to the stack.
 6-	6 is removed from the stack.
 3-	3 is removed from the stack.
+	2 is added to the stack.
 2-	2 is removed from the stack.
 ```
 

@@ -49,7 +49,7 @@ int main(){
 	// DFS Loop
 	std::vector<bool> visit(n, false);
 	std::stack<int> stack;
-	int s = 6; // start
+	int s = 0; // start
 	stack.push(s);
 
 	while(!stack.empty()){
