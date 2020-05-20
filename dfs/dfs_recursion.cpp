@@ -2,27 +2,28 @@
 #include <stack>
 #include <vector>
 
-void add_edge(std::vector< std::vector<int> > &adjacent, int src, int dst){
+void add_edge(std::vector< std::vector<int> > &adjacent, int src, int dst) {
 	// adjacent.push
 	adjacent[src][dst] = 1;
 }
 
-void dfs(int here, std::vector<bool> &visit, std::vector< std::vector<int> > adjacent){
+void dfs(int here, std::vector<bool> &visit, std::vector< std::vector<int> > adjacent) {
 	visit[here] = true;
-	std::cout << here << '-';
+	//std::cout << here << '-';
+	std::cout << "dfs(" << here << ')' << std::endl;
 	for (int i = 0; i < visit.size(); ++i)
 	{
-		if ( adjacent[here][i] != 0 ){
-			int next = adjacent[here][i];
-			if (!visit[next]){
-				std::cout << "\t::::" << next << std::endl;
+		if (adjacent[here][i] != 0) {
+			int next = i;
+			if (!visit[next]) {
+				//std::cout << "\t::::" << next << std::endl;
 				dfs(next, visit, adjacent);
 			}
 		}
 	}
 }
 
-int main(){
+int main() {
 	std::cout << "Hello, DFS(Recursion)!" << std::endl;
 
 	// Graph Initialization
@@ -63,6 +64,6 @@ int main(){
 
 	std::vector<bool> visit(n, false);
 
-	dfs(0, visit, adj);
+	dfs(6, visit, adj);
 	return -1;
 }
