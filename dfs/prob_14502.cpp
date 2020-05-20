@@ -4,6 +4,9 @@
 
 using namespace std;
 
+int dr[] = { 0, 0, -1, 1};
+int dc[] = {-1, 1,  0, 0};
+
 struct Position
 {
 	int r, c;
@@ -17,8 +20,31 @@ void print_map(vector< vector<int> > map, int N, int M){
 	}
 }
 
-void spread_virus(vector< vector<int> > &map, int N, int M){
+void spread_virus(int r, int c, vector< vector<int> > &map, int N, int M){
+	// printf("(%d, %d)\n", r, c);
+	map[r][c] = 2;
+	for (int i = 0; i < 4; ++i)
+	{
+		int nr = r + dr[i];
+		int nc = c + dc[i];
+		if ((nr >= 0) && (nc >= 0) && (nr < N) && (nc < M)){
+			if (map[nr][nc] == 0)
+				spread_virus(nr, nc, map, N, M);
+		}
+	}
+}
 
+int count_safe(vector< vector<int> > map, int N, int M){
+	int val = 0;
+	for (int i = 0; i < N; ++i)
+	{
+		for (int j = 0; j < M; ++j)
+		{
+			if (map[i][j] == 0)
+				val++;
+		}
+	}
+	return val;
 }
 
 int main(){
@@ -42,45 +68,15 @@ int main(){
 	printf("\nN=%d, M=%d\n", N, M);
 	print_map(map, N, M);
 
-	// Spread virus
 	for (int i = 0; i < virus_location.size(); ++i)
 	{
 		int r = virus_location[i].r;
 		int c = virus_location[i].c;
-		// vector< vector<bool> > visit(N, vector<bool>(M, false));
-		stack<Position> stack;
-		stack.push(virus_location[i]);
-		while(!stack.empty()){
-			Position here = stack.top();
-			stack.pop();
-			for (int d = 0; d < 4; ++d)
-			{
-				int nr = -1;
-				int nc = -1;
-				if (d == 0) // Up
-				{
-					nr = r - 1;
-					nc = c;
-				}
-				else if (d == 1) // Down
-				{
-					nr = r + 1;
-					nc = c;
-				}
-				else if (d == 2) // Left
-				{
-					nr = r;
-					nc = c - 1;
-				}
-				else if (d == 3) // Right
-				{
-					nr = r;
-					nc = c + 1;
-				}
-				if ((nr < N && (nc < M) && (nr >= 0) && (nc >= 0) && map[nr][nc] == 0))
-					map[nr][nc] = 2;
-			}
-		}
+		spread_virus(r, c, map, N, M);
 	}
+	printf("\n===============================\n");
+	print_map(map, N, M);
+
+	cout << "Safe: " << count_safe(map, N, M);
 	return -1;
 }
